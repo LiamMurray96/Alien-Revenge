@@ -18,7 +18,7 @@ class Nave(pygame.sprite.Sprite):
         self.image = pygame.image.load("image/nave.png")
         self.image = pygame.Surface.convert_alpha(self.image)
         #ridimensioniamo il personaggio
-        self.image = pygame.transform.scale(self.image, (100, 50))
+        self.image = pygame.transform.scale(self.image, (125, 75))
 
         #rettangolo di posizione e collegamento
         self.rect = self.image.get_rect()
