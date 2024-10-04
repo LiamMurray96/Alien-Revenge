@@ -15,7 +15,7 @@ class Nave(pygame.sprite.Sprite):
         #chiamiamo il costruttore della super classe, in questo caso Sprite
         super().__init__()
         #carichiamo immagine personaggio
-        self.image = pygame.image.load("image/nave.png")
+        self.image = pygame.image.load("image/ship.png")
         self.image = pygame.Surface.convert_alpha(self.image)
         #ridimensioniamo il personaggio
         self.image = pygame.transform.scale(self.image, (125, 75))
