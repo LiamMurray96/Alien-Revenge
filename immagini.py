@@ -1,5 +1,5 @@
 import pygame
-#from immagini import Nave
+#from immagini import Nave, Nemico, Ostacolo, Sparo
 import sys
 
 width, heigth = 800, 600
@@ -120,7 +120,7 @@ class Ostacolo(pygame.sprite.Sprite):
         self.velocita_x += x
         self.velocita_y += y
 
-class Bullet(pygame.sprite.Sprite):
+class Sparo(pygame.sprite.Sprite):
     #costruttore classe
     def __init__(self, x, y):
         #chiamiamo il costruttore della super classe, in questo caso Sprite
@@ -161,7 +161,7 @@ class Bullet(pygame.sprite.Sprite):
 nave = Nave(100, 100)
 nemico = Nemico(400, 400)
 ostacolo = Ostacolo(250, 250)
-sparo = Bullet(50, 50)
+sparo = Sparo(50, 50)
 
 if nave.rect.colliderect(nemico.rect):
     screen.fill("red")
