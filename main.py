@@ -41,13 +41,28 @@ gruppo_di_personaggi.add(personaggio)
 
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Alien Revenge")
-bkg = pygame.image.load("image/Space.jpg")
+bg = pygame.image.load("image/Space.jpg")
+bgX = 0
+bgX2 = bg.get_width()
 
 orologio = pygame.time.Clock()
 frame_rate = 60
+speedScrl = 5
 
 while True:
-    for event in pygame.event.get():
+     
+     orologio.tick(frame_rate)
+     bgX -= speedScrl  
+     bgX2 -= speedScrl
+
+     if bgX < bg.get_width() * -1: 
+         bgX = bg.get_width()
+    
+     if bgX2 < bg.get_width() * -1:
+         bgX2 = bg.get_width()
+
+
+     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()    
@@ -74,17 +89,11 @@ while True:
             if event.key == pygame.K_s:
                 personaggio.cambia_velocita(0, -5)
 
-   
-   
-   
-    orologio.tick(frame_rate) 
+     
+     screen.blit(bg, (bgX, 0))  
+     screen.blit(bg, (bgX2, 0))  
 
-    screen.fill("white")
-    screen.blit(bkg, (0, 0))
-    gruppo_di_personaggi.update()
-    gruppo_di_personaggi.draw(screen)
-   
-   
-   
+     gruppo_di_personaggi.update()
+     gruppo_di_personaggi.draw(screen)
 
-    pygame.display.update()
+     pygame.display.update()
