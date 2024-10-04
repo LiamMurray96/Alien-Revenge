@@ -6,8 +6,8 @@ WIDTH, HEIGHT = 800, 600
 class Personaggio(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load('image/navic.png')
-        self.image = pygame.transform.scale(self.image, (100,50))
+        self.image = pygame.image.load('image/ship.png')
+        self.image = pygame.transform.scale(self.image, (125,75))
 
         self.rect = self.image.get_rect()
 
@@ -34,6 +34,8 @@ class Personaggio(pygame.sprite.Sprite):
         self.velocita_y += y
 
 
+
+
 personaggio = Personaggio(100, 100)
 
 gruppo_di_personaggi = pygame.sprite.Group()
@@ -47,7 +49,7 @@ bgX2 = bg.get_width()
 
 orologio = pygame.time.Clock()
 frame_rate = 60
-speedScrl = 5
+speedScrl = 4
 
 while True:
      
