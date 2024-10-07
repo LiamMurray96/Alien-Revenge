@@ -51,6 +51,24 @@ orologio = pygame.time.Clock()
 frame_rate = 60
 speedScrl = 4
 
+class projectile(object):
+    def __init__(self,x,y,radius,color,facing):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.color = color
+        self.facing = facing
+        self.vel = 8 * facing
+
+    def draw(self,win):
+        pygame.draw.circle(win, self.color, (self.x,self.y), self.radius)
+
+def redrawGameWindow():
+    for bullet in bullets:
+        bullet.draw(screen)
+
+#main loop
+bullets = []
 while True:
      
      orologio.tick(frame_rate)
@@ -91,11 +109,25 @@ while True:
             if event.key == pygame.K_s:
                 personaggio.cambia_velocita(0, -5)
 
-     
+        for bullet in bullets:
+            if bullet.x < 500 and bullet.x > 0:
+                bullet.x += bullet.vel
+            else:
+                bullets.pop(bullets.index(bullet))
+        
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            if len(bullets) < 5: #meno di 5 proiettili sullo schermo alla volta
+                bullets.append(projectile(round(personaggio.rect.x + personaggio.rect.x // 2), (personaggio.rect.y + personaggio.rect.y // 2), 6, ("yellow"), 1))
+                #spara dal centro dello sprite
+
+
      screen.blit(bg, (bgX, 0))  
      screen.blit(bg, (bgX2, 0))  
 
      gruppo_di_personaggi.update()
      gruppo_di_personaggi.draw(screen)
+
+     redrawGameWindow()
 
      pygame.display.update()
