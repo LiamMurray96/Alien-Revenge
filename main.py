@@ -49,17 +49,40 @@ menubg = pygame.transform.scale(menubg, (800, 600))
 orologio = pygame.time.Clock()
 frame_rate = 60
 speedScrl = 4
+
 game_state = "start_menu"
 
-font = pygame.font.Font(None, 25)
-font2 = pygame.font.Font(None, 100)
-title = font2.render('Alien Revenge', True, (255, 0, 0))
-button_surface = pygame.Surface((150, 50))
-text = font.render(">>Click to Start<<", True, (0, 0, 0))
-text_rect = text.get_rect(center=(button_surface.get_width()/2, button_surface.get_height()/2))
-button_rect = pygame.Rect(315, 400, 150, 50) 
+def draw_start_menu():
+   screen.fill((0, 0, 0))
+   font = pygame.font.SysFont(None, 40)
+   font2 = pygame.font.SysFont(None, 100)
+   font3 = pygame.font.SysFont(None, 40)
+   title = font2.render('Alien Revenge', True, (255, 255, 255))
+   start_button = font.render('>>Premi Spazio<<', True, (255, 255, 255))
+   change_ship = font3.render('Seleziona Nave', True, (255, 255, 255))
+   screen.blit(title, (150, 100))
+   screen.blit(start_button, (260, 400))
+   screen.blit(change_ship, (280, 300))
+   pygame.display.update()
 
+class projectile(object):
+    def __init__(self,x,y,radius,color,facing):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.color = color
+        self.facing = facing
+        self.vel = 8 * facing
 
+    def draw(self,win):
+        pygame.draw.circle(win, self.color, (self.x,self.y), self.radius)
+
+def redrawGameWindow():
+    for bullet in bullets:
+        bullet.draw(screen)
+
+#main loop
+bullets = []
 while True:
     
     orologio.tick(frame_rate)
@@ -131,5 +154,5 @@ while True:
         screen.blit(bg, (bgX2, 0))  
         gruppo_di_personaggi.update()
         gruppo_di_personaggi.draw(screen)
-        
-        pygame.display.update()       
+        redrawGameWindow()
+        pygame.display.update()     
