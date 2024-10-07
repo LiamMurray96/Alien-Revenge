@@ -1,5 +1,4 @@
 import pygame
-#from immagini import Nave, Nemico, Ostacolo, Sparo
 import sys
 pygame.init()
 WIDTH, HEIGHT = 800, 600
