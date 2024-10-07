@@ -34,8 +34,6 @@ class Personaggio(pygame.sprite.Sprite):
         self.velocita_y += y
 
 
-
-
 personaggio = Personaggio(100, 100)
 
 gruppo_di_personaggi = pygame.sprite.Group()
@@ -50,52 +48,79 @@ bgX2 = bg.get_width()
 orologio = pygame.time.Clock()
 frame_rate = 60
 speedScrl = 4
+game_state = "start_menu"
+
+def draw_start_menu():
+   screen.fill((0, 0, 0))
+   font = pygame.font.SysFont(None, 40)
+   font2 = pygame.font.SysFont(None, 100)
+   font3 = pygame.font.SysFont(None, 40)
+   title = font2.render('Alien Revenge', True, (255, 255, 255))
+   start_button = font.render('>>Premi Spazio<<', True, (255, 255, 255))
+   change_ship = font3.render('Seleziona Nave', True, (255, 255, 255))
+   screen.blit(title, (150, 100))
+   screen.blit(start_button, (260, 400))
+   screen.blit(change_ship, (280, 300))
+   pygame.display.update()
+
 
 while True:
-     
-     orologio.tick(frame_rate)
-     bgX -= speedScrl  
-     bgX2 -= speedScrl
-
-     if bgX < bg.get_width() * -1: 
-         bgX = bg.get_width()
     
-     if bgX2 < bg.get_width() * -1:
-         bgX2 = bg.get_width()
+    orologio.tick(frame_rate)
 
-
-     for event in pygame.event.get():
+    #Tasti e Comandi
+    for event in pygame.event.get():
+        #Quit
         if event.type == pygame.QUIT:
             pygame.quit()
-            sys.exit()    
-            
+            sys.exit() 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 sys.exit()
-            if event.key == pygame.K_a:
-                personaggio.cambia_velocita(-5, 0)
-            if event.key == pygame.K_d:
-                personaggio.cambia_velocita(5, 0)
-            if event.key == pygame.K_w:
-                personaggio.cambia_velocita(0, -5)
-            if event.key == pygame.K_s:
-                personaggio.cambia_velocita(0, 5)
+        #Comandi Navicella
+            if game_state == "game":   
+                if event.key == pygame.K_a:
+                    personaggio.cambia_velocita(-5, 0)
+                if event.key == pygame.K_d:
+                    personaggio.cambia_velocita(5, 0)
+                if event.key == pygame.K_w:
+                    personaggio.cambia_velocita(0, -5)
+                if event.key == pygame.K_s:
+                    personaggio.cambia_velocita(0, 5)
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_a:
-                personaggio.cambia_velocita(5, 0)
-            if event.key == pygame.K_d:
-                personaggio.cambia_velocita(-5, 0)
-            if event.key == pygame.K_w:
-                personaggio.cambia_velocita(0, 5)
-            if event.key == pygame.K_s:
-                personaggio.cambia_velocita(0, -5)
+            if game_state == "game":
+                if event.key == pygame.K_a:
+                    personaggio.cambia_velocita(5, 0)
+                if event.key == pygame.K_d:
+                    personaggio.cambia_velocita(-5, 0)
+                if event.key == pygame.K_w:
+                    personaggio.cambia_velocita(0, 5)
+                if event.key == pygame.K_s:
+                    personaggio.cambia_velocita(0, -5)
 
-     
-     screen.blit(bg, (bgX, 0))  
-     screen.blit(bg, (bgX2, 0))  
+    #Menu
+    if game_state == "start_menu":
+        draw_start_menu()
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            game_state = "game"
+    
+    #Gioco
+    elif game_state == "game":
+        #Sfondo
+        bgX -= speedScrl  
+        bgX2 -= speedScrl
 
-     gruppo_di_personaggi.update()
-     gruppo_di_personaggi.draw(screen)
-
-     pygame.display.update()
+        if bgX < bg.get_width() * -1: 
+            bgX = bg.get_width()
+            
+        if bgX2 < bg.get_width() * -1:
+            bgX2 = bg.get_width()
+    
+        screen.blit(bg, (bgX, 0))  
+        screen.blit(bg, (bgX2, 0))  
+        gruppo_di_personaggi.update()
+        gruppo_di_personaggi.draw(screen)
+        
+        pygame.display.update()     
