@@ -48,6 +48,7 @@ bgX2 = bg.get_width()
 orologio = pygame.time.Clock()
 frame_rate = 60
 speedScrl = 4
+
 game_state = "start_menu"
 
 def draw_start_menu():
@@ -63,7 +64,24 @@ def draw_start_menu():
    screen.blit(change_ship, (280, 300))
    pygame.display.update()
 
+class projectile(object):
+    def __init__(self,x,y,radius,color,facing):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.color = color
+        self.facing = facing
+        self.vel = 8 * facing
 
+    def draw(self,win):
+        pygame.draw.circle(win, self.color, (self.x,self.y), self.radius)
+
+def redrawGameWindow():
+    for bullet in bullets:
+        bullet.draw(screen)
+
+#main loop
+bullets = []
 while True:
     
     orologio.tick(frame_rate)
@@ -122,5 +140,5 @@ while True:
         screen.blit(bg, (bgX2, 0))  
         gruppo_di_personaggi.update()
         gruppo_di_personaggi.draw(screen)
-        
+        redrawGameWindow()
         pygame.display.update()     
