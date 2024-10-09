@@ -91,7 +91,14 @@ while True:
         #Quit
         if event.type == pygame.QUIT:
             pygame.quit()
-            sys.exit() 
+            sys.exit()
+        keys = pygame.key.get_pressed()
+        for bullet in bullets:
+            if bullet.x < 800 and bullet.x > 0:
+                bullet.x += bullet.vel # Moves the bullet by its vel
+            else:
+                bullets.pop(bullets.index(bullet))  # This will remove the bullet if it is off the screen
+        
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
@@ -106,6 +113,9 @@ while True:
                     personaggio.cambia_velocita(0, -5)
                 if event.key == pygame.K_s:
                     personaggio.cambia_velocita(0, 5)
+                if keys[pygame.K_SPACE]:
+                    if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
+                        bullets.append(projectile(round(personaggio.rect.x+personaggio.rect.y//2), round(personaggio.rect.x + personaggio.rect.y//2), 6, ("yellow"), 1))
         elif event.type == pygame.KEYUP:
             if game_state == "game":
                 if event.key == pygame.K_a:
