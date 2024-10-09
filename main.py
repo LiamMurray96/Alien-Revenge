@@ -165,4 +165,4 @@ while True:
         gruppo_di_personaggi.update()
         gruppo_di_personaggi.draw(screen)
         redrawGameWindow()
-        pygame.display.update()     
+        pygame.display.update()
