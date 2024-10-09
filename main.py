@@ -114,7 +114,7 @@ while True:
                 if event.key == pygame.K_s:
                     personaggio.cambia_velocita(0, 5)
                 if keys[pygame.K_SPACE]:
-                    if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
+                    if len(bullets) < 20:  # This will make sure we cannot exceed 20 bullets on the screen at once
                         bullets.append(projectile(round(personaggio.rect.x+personaggio.rect.y//2), round(personaggio.rect.x + personaggio.rect.y//2), 6, ("yellow"), 1))
         elif event.type == pygame.KEYUP:
             if game_state == "game":
