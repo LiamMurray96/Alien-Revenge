@@ -43,7 +43,7 @@ pygame.display.set_caption("Alien Revenge")
 bg = pygame.image.load("image/nuovospace.png")
 bgX = 0
 bgX2 = bg.get_width()
-menubg = pygame.image.load("image/alienisolation.jpg")
+menubg = pygame.image.load("image/alienisolation.png")
 menubg = pygame.transform.scale(menubg, (800, 600))
 
 orologio = pygame.time.Clock()
@@ -82,7 +82,9 @@ button_rect3 = pygame.Rect(520, 200, 200, 200)
 scelta3 = pygame.image.load('image/bird.png')
 scelta3 = pygame.transform.scale(scelta3, (150, 150))
 
+vite = 3
 
+score = 0
 while True:
     
     orologio.tick(frame_rate)
@@ -117,6 +119,7 @@ while True:
                     personaggio.cambia_velocita(0, 5)
                 if event.key == pygame.K_s:
                     personaggio.cambia_velocita(0, -5)
+
 
     #Menu
     if game_state == "start_menu":
@@ -207,5 +210,11 @@ while True:
         screen.blit(bg, (bgX2, 0))  
         gruppo_di_personaggi.update()
         gruppo_di_personaggi.draw(screen)
+        score_text = font.render(f'Punteggio: {score}', True, "white")
+        screen.blit(score_text, (10, 10))
+        vite_text = font.render(f'vite: {vite}', True, "white")
+        screen.blit(vite_text, (600, 10))
+
+
         
         pygame.display.update()   
