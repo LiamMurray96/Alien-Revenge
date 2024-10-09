@@ -152,3 +152,25 @@ while True:
         gruppo_di_personaggi.draw(screen)
         redrawGameWindow()
         pygame.display.update()     
+        for bullet in bullets:
+            if bullet.x < 500 and bullet.x > 0:
+                bullet.x += bullet.vel
+            else:
+                bullets.pop(bullets.index(bullet))
+        
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            if len(bullets) < 5: #meno di 5 proiettili sullo schermo alla volta
+                bullets.append(projectile(round(personaggio.rect.x + personaggio.rect.x // 2), (personaggio.rect.y + personaggio.rect.y // 2), 6, ("yellow"), 1))
+                #spara dal centro dello sprite
+
+
+     screen.blit(bg, (bgX, 0))  
+     screen.blit(bg, (bgX2, 0))  
+
+     gruppo_di_personaggi.update()
+     gruppo_di_personaggi.draw(screen)
+
+     redrawGameWindow()
+
+     pygame.display.update()
