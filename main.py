@@ -50,6 +50,7 @@ orologio = pygame.time.Clock()
 frame_rate = 60
 speedScrl = 4
 
+
 game_state = "start_menu"
 
 def draw_start_menu():
