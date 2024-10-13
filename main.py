@@ -114,7 +114,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit() 
-            keys = pygame.key.get_pressed()
+        keys = pygame.key.get_pressed()
         for bullet in bullets:
             if bullet.x < 800 and bullet.x > 0:
                 bullet.x += bullet.vel # Moves the bullet by its vel
