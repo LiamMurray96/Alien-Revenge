@@ -6,7 +6,7 @@ WIDTH, HEIGHT = 800, 600
 class Personaggio(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load('image/aliennave.png')
+        self.image = pygame.image.load('image/bird.png')
         self.image = pygame.transform.scale(self.image, (100,100))
 
         self.rect = self.image.get_rect()
@@ -33,6 +33,19 @@ class Personaggio(pygame.sprite.Sprite):
         self.velocita_x += x
         self.velocita_y += y
 
+    def cambia_img1(self):
+       self.image = pygame.image.load('image/aliennave.png')
+       self.image = pygame.transform.scale(self.image, (100,100))
+
+    def cambia_img2(self):
+       self.image = pygame.image.load('image/ship.png')
+       self.image = pygame.transform.scale(self.image, (110,100))
+
+    def cambia_img3(self):
+       self.image = pygame.image.load('image/terzanave.png')
+       self.image = pygame.transform.scale(self.image, (110,88))
+       
+
         
 personaggio = Personaggio(50, 250)
 gruppo_di_personaggi = pygame.sprite.Group()
@@ -57,7 +70,7 @@ title = font2.render('Alien Revenge', True, (255, 0, 0))
 title2 = font2.render('Scegli la tua nave', True, (255, 0, 0))
 #Bottone start
 button_surface = pygame.Surface((150, 50))
-text = font.render(">>Click to Start<<", True, (0, 0, 0))
+text = font.render(">>Inizia il gioco<<", True, (0, 0, 0))
 text_rect = text.get_rect(center=(button_surface.get_width()/2, button_surface.get_height()/2))
 button_rect = pygame.Rect(315, 400, 150, 50) 
 #Bottone prima scelta
@@ -79,12 +92,12 @@ button_surface3 = pygame.Surface((200, 200))
 text3 = font.render("Nave tre", True, (0, 0, 0))
 text_rect3 = text3.get_rect(center=(button_surface3.get_width()/2, 25))
 button_rect3 = pygame.Rect(520, 200, 200, 200) 
-scelta3 = pygame.image.load('image/bird.png')
-scelta3 = pygame.transform.scale(scelta3, (150, 150))
+scelta3 = pygame.image.load('image/terzanave.png')
+scelta3 = pygame.transform.scale(scelta3, (140, 108))
 
 vite = 3
-
 score = 0
+
 while True:
     
     orologio.tick(frame_rate)
@@ -120,7 +133,6 @@ while True:
                 if event.key == pygame.K_s:
                     personaggio.cambia_velocita(0, -5)
 
-
     #Menu
     if game_state == "start_menu":
       if event.type == pygame.MOUSEBUTTONDOWN:
@@ -141,12 +153,13 @@ while True:
 
       pygame.display.update()
     
-    #Menu Scelta
+    #Menu Scelta Nave
     elif game_state == "scelta":
      #Prima scelta
      if event.type == pygame.MOUSEBUTTONDOWN:
        if button_rect1.collidepoint(event.pos):  
          game_state = "game"
+         personaggio.cambia_img1()
      if button_rect1.collidepoint(pygame.mouse.get_pos()):
         pygame.draw.rect(button_surface1, (255, 0, 0), (1, 1, 198, 198))
      else:
@@ -158,6 +171,7 @@ while True:
      if event.type == pygame.MOUSEBUTTONDOWN:
        if button_rect2.collidepoint(event.pos):  
          game_state = "game"
+         personaggio.cambia_img2()
      if button_rect2.collidepoint(pygame.mouse.get_pos()):
         pygame.draw.rect(button_surface2, (255, 0, 0), (1, 1, 198, 198))
      else:
@@ -169,6 +183,7 @@ while True:
      if event.type == pygame.MOUSEBUTTONDOWN:
        if button_rect3.collidepoint(event.pos):  
          game_state = "game"
+         personaggio.cambia_img3()
      if button_rect3.collidepoint(pygame.mouse.get_pos()):
         pygame.draw.rect(button_surface3, (255, 0, 0), (1, 1, 198, 198))
      else:
@@ -190,7 +205,7 @@ while True:
 
      button_surface3.blit(text3, text_rect3)
      screen.blit(button_surface3, (button_rect3.x, button_rect3.y))
-     screen.blit(scelta3, (550, 230))
+     screen.blit(scelta3, (550, 250))
 
      pygame.display.update()
 
@@ -214,7 +229,5 @@ while True:
         screen.blit(score_text, (10, 10))
         vite_text = font.render(f'vite: {vite}', True, "white")
         screen.blit(vite_text, (600, 10))
-
-
         
-        pygame.display.update()   
+        pygame.display.update()     
