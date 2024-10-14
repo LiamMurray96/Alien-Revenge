@@ -62,6 +62,23 @@ menubg = pygame.transform.scale(menubg, (800, 600))
 orologio = pygame.time.Clock()
 frame_rate = 60
 speedScrl = 4
+
+class projectile(object):
+    def __init__(self,x,y,radius,color,facing):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.color = color
+        self.facing = facing
+        self.vel = 8 * facing
+
+    def draw(self,win):
+        pygame.draw.circle(win, self.color, (self.x,self.y), self.radius)
+
+def redrawGameWindow():
+    for bullet in bullets:
+        bullet.draw(screen)
+
 game_state = "start_menu"
 
 font = pygame.font.Font(None, 25)
@@ -92,12 +109,14 @@ button_surface3 = pygame.Surface((200, 200))
 text3 = font.render("Nave tre", True, (0, 0, 0))
 text_rect3 = text3.get_rect(center=(button_surface3.get_width()/2, 25))
 button_rect3 = pygame.Rect(520, 200, 200, 200) 
-scelta3 = pygame.image.load('image/terzanave.png')
-scelta3 = pygame.transform.scale(scelta3, (140, 108))
+scelta3 = pygame.image.load('image/bird.png')
+scelta3 = pygame.transform.scale(scelta3, (150, 150))
 
 vite = 3
-score = 0
 
+score = 0
+#main loop
+bullets = []
 while True:
     
     orologio.tick(frame_rate)
@@ -108,6 +127,12 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit() 
+        keys = pygame.key.get_pressed()
+        for bullet in bullets:
+            if bullet.x < 800 and bullet.x > 0:
+                bullet.x += bullet.vel # Moves the bullet by its vel
+            else:
+                bullets.pop(bullets.index(bullet))  # This will remove the bullet if it is off the screen
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
@@ -122,6 +147,9 @@ while True:
                     personaggio.cambia_velocita(0, -5)
                 if event.key == pygame.K_s:
                     personaggio.cambia_velocita(0, 5)
+                if keys[pygame.K_SPACE]:
+                    if len(bullets) < 20:  # This will make sure we cannot exceed 20 bullets on the screen at once
+                        bullets.append(projectile(round(personaggio.rect.x+personaggio.rect.y//2), round(personaggio.rect.x + personaggio.rect.y//2), 6, ("yellow"), 1))
         elif event.type == pygame.KEYUP:
             if game_state == "game":
                 if event.key == pygame.K_a:
@@ -132,6 +160,7 @@ while True:
                     personaggio.cambia_velocita(0, 5)
                 if event.key == pygame.K_s:
                     personaggio.cambia_velocita(0, -5)
+
 
     #Menu
     if game_state == "start_menu":
@@ -229,5 +258,7 @@ while True:
         screen.blit(score_text, (10, 10))
         vite_text = font.render(f'vite: {vite}', True, "white")
         screen.blit(vite_text, (600, 10))
-        
-        pygame.display.update()     
+
+
+        redrawGameWindow()
+        pygame.display.update()   
