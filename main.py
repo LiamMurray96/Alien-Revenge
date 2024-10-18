@@ -72,9 +72,38 @@ class Bullet(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.x -= self.speedx
-  
+
+class Explosion(pygame.sprite.Sprite):
+	def __init__(self, x, y):
+		super().__init__()
+		self.images = []
+		for num in range(1, 6):
+			img = pygame.image.load(f"image/exp{num}.png")
+			img = pygame.transform.scale(img, (100, 100))
+			self.images.append(img)
+		self.index = 0
+		self.image = self.images[self.index]
+		self.rect = self.image.get_rect()
+		self.rect.center = [x, y]
+		self.counter = 0
+
+	def update(self):
+		explosion_speed = 4
+		#update explosion animation
+		self.counter += 1
+
+		if self.counter >= explosion_speed and self.index < len(self.images) - 1:
+			self.counter = 0
+			self.index += 1
+			self.image = self.images[self.index]
+
+		#if the animation is complete, reset animation index
+		if self.index >= len(self.images) - 1 and self.counter >= explosion_speed:
+			self.kill()
+
 personaggio = Personaggio(50, 250)
 gruppo_di_personaggi = pygame.sprite.Group()
+explosion_group = pygame.sprite.Group()
 gruppo_di_personaggi.add(personaggio)
 bullets = pygame.sprite.Group()
 
@@ -153,6 +182,11 @@ while True:
                 elif event.type == pygame.KEYDOWN:
                   if event.key == pygame.K_SPACE:
                      personaggio.shoot()
+                #Explosion test
+                #if event.type == pygame.MOUSEBUTTONDOWN:
+                    #pos = pygame.mouse.get_pos()
+                    #explosion = Explosion(pos[0], pos[1])
+                    #explosion_group.add(explosion)
         elif event.type == pygame.KEYUP:
             if game_state == "game":
                 if event.key == pygame.K_a:
@@ -163,6 +197,7 @@ while True:
                     personaggio.cambia_velocita(0, 5)
                 if event.key == pygame.K_s:
                     personaggio.cambia_velocita(0, -5)
+        #if personaggio.rect.colliderect(asteroide.rect):
 
     #Menu
     if game_state == "start_menu":
@@ -256,6 +291,8 @@ while True:
         screen.blit(bg, (bgX2, 0))  
         gruppo_di_personaggi.update()
         gruppo_di_personaggi.draw(screen)
+        explosion_group.draw(screen)
+        explosion_group.update()
         score_text = font.render(f'Punteggio: {score}', True, "white")
         screen.blit(score_text, (10, 10))
         vite_text = font.render(f'vite: {vite}', True, "white")
