@@ -7,7 +7,7 @@ WIDTH, HEIGHT = 800, 600
 class Personaggio(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load('imageG/bird.png')
+        self.image = pygame.image.load('image/bird.png')
         self.image = pygame.transform.scale(self.image, (100,100))
 
         self.rect = self.image.get_rect()
@@ -51,15 +51,15 @@ class Personaggio(pygame.sprite.Sprite):
         self.velocita_y += y
 
     def cambia_img1(self):
-       self.image = pygame.image.load('imageG/aliennave.png')
+       self.image = pygame.image.load('image/aliennave.png')
        self.image = pygame.transform.scale(self.image, (100,100))
 
     def cambia_img2(self):
-       self.image = pygame.image.load('imageG/ship.png')
+       self.image = pygame.image.load('image/ship.png')
        self.image = pygame.transform.scale(self.image, (110,100))
 
     def cambia_img3(self):
-       self.image = pygame.image.load('imageG/terzanave.png')
+       self.image = pygame.image.load('image/terzanave.png')
        self.image = pygame.transform.scale(self.image, (110,88))
        
     def vite(self):
@@ -81,7 +81,7 @@ class Personaggio(pygame.sprite.Sprite):
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("imageG/shot.png")
+        self.image = pygame.image.load("image/shot.png")
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
         self.rect.bottom = y + 74
@@ -95,7 +95,7 @@ class Bullet(pygame.sprite.Sprite):
 class Asteroide(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("imageG/asteroide.png")
+        self.image = pygame.image.load("image/asteroide.png")
         self.rect = self.image.get_rect()
         self.rect.x = WIDTH
         self.rect.y = random.randint(5, HEIGHT - 50)
@@ -123,10 +123,10 @@ ostacoli = pygame.sprite.Group()
 
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Alien Revenge")
-bg = pygame.image.load("imageG/nuovospace.png")
+bg = pygame.image.load("image/nuovospace.png")
 bgX = 0
 bgX2 = bg.get_width()
-menubg = pygame.image.load("imageG/alienisolation.jpg")
+menubg = pygame.image.load("image/alienisolation.png")
 menubg = pygame.transform.scale(menubg, (800, 600))
 
 orologio = pygame.time.Clock()
@@ -149,21 +149,21 @@ button_surface1 = pygame.Surface((200, 200))
 text1 = font.render("Nave Aliena Avanzata", True, (0, 0, 0))
 text_rect1 = text1.get_rect(center=(button_surface1.get_width()/2, 25))
 button_rect1 = pygame.Rect(100, 200, 200, 200) 
-scelta1 = pygame.image.load('imageG/aliennave.png')
+scelta1 = pygame.image.load('image/aliennave.png')
 scelta1 = pygame.transform.scale(scelta1, (150, 150))
 #Bottone seconda scelta
 button_surface2 = pygame.Surface((200, 200))
 text2 = font.render("Nave Umana Rubata", True, (0, 0, 0))
 text_rect2 = text2.get_rect(center=(button_surface2.get_width()/2, 25))
 button_rect2 = pygame.Rect(310, 200, 200, 200) 
-scelta2 = pygame.image.load('imageG/ship.png')
+scelta2 = pygame.image.load('image/ship.png')
 scelta2 = pygame.transform.scale(scelta2, (140, 140))
 #Bottone terza scelta
 button_surface3 = pygame.Surface((200, 200))
 text3 = font.render("Antica Nave Aliena", True, (0, 0, 0))
 text_rect3 = text3.get_rect(center=(button_surface3.get_width()/2, 25))
 button_rect3 = pygame.Rect(520, 200, 200, 200) 
-scelta3 = pygame.image.load('imageG/terzanave.png')
+scelta3 = pygame.image.load('image/terzanave.png')
 scelta3 = pygame.transform.scale(scelta3, (140, 108))
 
 score = 0
