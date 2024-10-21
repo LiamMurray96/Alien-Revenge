@@ -1,5 +1,7 @@
 import pygame
 import sys
+import random
+
 pygame.init()
 WIDTH, HEIGHT = 800, 600
 
@@ -69,9 +71,29 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.bottom = y + 74
         self.rect.centerx = x + 70
         self.speedx = -10
+        self.damage = 10
 
     def update(self):
         self.rect.x -= self.speedx
+
+class Asteroide(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.image.load("image/asteroide.png")
+        #self.image = pygame.Surface.convert_alpha(self.image)
+        self.image = pygame.transform.scale(self.image, (210, 200))
+        self.rect = self.image.get_rect()
+        self.health = 30
+        #self.mask = pygame.mask.from_surface(self, self.image)
+        self.rect.topleft = (x,y)
+        self.velocita_x = -8
+        self.velocita_y = 0
+
+    def update(self):
+            self.rect.x += self.velocita_x
+            self.rect.y += self.velocita_y
+            if self.health <= 0:
+                self.kill()
 
 class Explosion(pygame.sprite.Sprite):
 	def __init__(self, x, y):
@@ -102,9 +124,12 @@ class Explosion(pygame.sprite.Sprite):
 			self.kill()
 
 personaggio = Personaggio(50, 250)
+asteroide = Asteroide(900, 250)
+
 gruppo_di_personaggi = pygame.sprite.Group()
 explosion_group = pygame.sprite.Group()
 gruppo_di_personaggi.add(personaggio)
+gruppo_di_personaggi.add(asteroide)
 bullets = pygame.sprite.Group()
 
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -197,7 +222,11 @@ while True:
                     personaggio.cambia_velocita(0, 5)
                 if event.key == pygame.K_s:
                     personaggio.cambia_velocita(0, -5)
-        #if personaggio.rect.colliderect(asteroide.rect):
+    if personaggio.rect.colliderect(asteroide.rect):
+        explosion = Explosion(personaggio.rect.x, personaggio.rect.y)
+        explosion_group.add(explosion)
+    if vite == 0:
+        personaggio.kill()
 
     #Menu
     if game_state == "start_menu":
